@@ -1,0 +1,30 @@
+{% extends 'todo/base.html' %}
+{% block content %}
+<div class="container">
+   {% if user.is_authenticated %}
+     {% if errormessage %}
+       <div class="alert alert-danger" role="alert">
+        {{ errormessage }}
+       </div>
+    {% endif %}
+    <h2>Create</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+    {% if updatemode %}
+    <form method="POST" action="{% url 'todo:set_as_complete' todo_pk=todo_id %}">
+        {% csrf_token %}
+        <button type="submit">Set as complete</button>
+    </form>
+     <form method="POST" action="{% url 'todo:deleterecord' todo_pk=todo_id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete Todo</button>
+    </form>
+    {% endif %}
+   {% else %}
+    <p>You are not logged in. <a href="{% url 'todo:loginuser' %}">Log in</a> or <a href="{% url 'todo:signupuser'%}">Sign up</a> to continue</p>
+    {% endif %}
+</div>
+{% endblock %}

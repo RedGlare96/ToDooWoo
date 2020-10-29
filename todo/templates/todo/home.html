@@ -1,0 +1,41 @@
+{% extends 'todo/base.html' %}
+{% block content %}
+<div class="container">
+    <h2>Welcome to Todos</h2>
+    {% if user.is_authenticated %}
+     <p><a href="{% url 'todo:createtodo' %}">Create Todo</a></p>
+    {% if view_mode == 0 %}
+    <a href="{% url 'todo:homedef' %}"><button type="button" class="btn btn-dark btm-sm">Current</button></a>
+    <a href="{% url 'todo:home' view_mode=1 %}"><button type="button" class="btn btn-secondary btm-sm">Completed</button></a>
+    {% elif view_mode == 1 %}
+     <a href="{% url 'todo:homedef' %}"><button type="button" class="btn btn-secondary btm-sm">Current</button></a>
+     <a href="{% url 'todo:home' view_mode=1 %}"><button type="button" class="btn btn-dark btm-sm">Completed</button></a>
+    {% endif %}
+    <div id="todos_list" class="list-group">
+        {% for todo in todos %}
+        {% if todo.important %}
+        <a href="{% url 'todo:showtodo' todo_pk=todo.id %}" class="list-group-item list-group-item-action active">{{ todo.title }}
+        {% if view_mode == 1 %}
+               Completed on: {{ todo.datecompleted }}
+        {% endif %}
+        </a>
+        {% else %}
+        <a href="{% url 'todo:showtodo' todo_pk=todo.id %}" class="list-group-item list-group-item-action">{{ todo.title }}
+            {% if view_mode == 1 %}
+               Completed on: {{ todo.datecompleted }}
+            {% endif %}
+        </a>
+        {% endif %}
+        {% endfor %}
+    </div>
+    <div data-spy="scroll" data-target="#todos_list" data-offset="0" class="scrollspy-example">
+        {% for todo in todos %}
+        <h4 id="list-item-{{ forloop.counter }}">{{ todo.title }}</h4>
+        <p>{{ todo.memo }}</p>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>Sign in to view your Todos</p>
+     {% endif %}
+</div>
+{% endblock %}

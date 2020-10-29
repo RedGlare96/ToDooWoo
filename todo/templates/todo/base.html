@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <title>Todo</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">TODOWOO</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="nav navbar-nav ml-auto">
+        <li><p><a href="{% url 'todo:homedef' %}">Todos</a></p></li>
+        <li><p><a href="{% url 'todo:createtodo' %}">Create new</a></p></li>
+        {% if user.is_authenticated %}
+        <li><p>You are logged in as: {{ user.username }}. </p> <form action="{% url 'todo:logoutuser' %}" method="POST">{% csrf_token %}<button type="submit">Log out</button></form> </li>
+        {% else %}
+        <li><p>You are not logged in. <a href="{% url 'todo:signupuser' %}">Sign up</a><a href="{% url 'todo:loginuser' %}"><button>Log in</button></a> </p></li>
+        {% endif %}
+    </ul>
+  </div>
+</nav>
+<div class="container jumbotron">
+    <h1 class="text-centre"><b>TODOWOO</b></h1>
+</div>
+{% block content %}
+{% endblock %}
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+</body>
+</html>

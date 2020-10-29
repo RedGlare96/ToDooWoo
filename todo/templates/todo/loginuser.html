@@ -1,0 +1,16 @@
+{% extends 'todo/base.html' %}
+{% block content %}
+<div class="container">
+    {% if errormessage %}
+       <div class="alert alert-danger" role="alert">
+        {{ errormessage }}
+       </div>
+    {% endif %}
+    <h2>Log in to view your Todos</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Log in</button>
+    </form>
+</div>
+{% endblock %}
